@@ -1,0 +1,52 @@
+{
+    "name": "soliantconsulting/simplefm-expressive",
+    "type": "library",
+    "description": "Expressive integration for SimpleFM",
+    "keywords": [
+        "FileMaker",
+        "adapter",
+        "expressive"
+    ],
+    "homepage": "http://github.com/soliantconsulting/SimpleFM-Expressive",
+    "license": "MIT",
+    "authors": [
+        {"name": "Ben Scholzen", "email": "bscholzen@soliantconsulting.com"}
+    ],
+    "require": {
+        "php": "^7.0",
+        "soliantconsulting/simplefm": "dev-develop as 5.0.0",
+        "container-interop/container-interop": "^1.1",
+        "zendframework/zend-diactoros": "^1.3",
+        "beberlei/assert": "^2.6"
+    },
+    "require-dev": {
+        "phpunit/PHPUnit": "^5.5",
+        "squizlabs/php_codesniffer": "^2.6",
+        "zendframework/zend-crypt": "^3.1",
+        "zendframework/zend-log": "^2.9",
+        "php-http/socket-client": "^1.2"
+    },
+    "suggest": {
+        "zendframework/zend-log": "For using the built-in logging mechanism",
+        "zendframework/zend-crypt": "For using the built-in identity handler",
+        "php-http/socket-client": "For using the built-in HTTP client"
+    },
+    "autoload": {
+        "psr-4": {
+            "Soliant\\SimpleFM\\Expressive\\": "src/"
+        }
+    },
+    "scripts": {
+        "check": [
+            "@cs",
+            "@test"
+        ],
+        "coveralls": "coveralls",
+        "cs": "phpcs",
+        "cs-fix": "phpcbf",
+        "test": "phpunit",
+        "test-coverage": "phpunit --coverage-clover clover.xml",
+        "html": "phpunit --coverage-html build/logs/coverage.html"
+    }
+
+}

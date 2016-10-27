@@ -9,10 +9,11 @@ use Soliant\SimpleFM\Client\ResultSet\ResultSetClientInterface;
 use Soliant\SimpleFM\Repository\Builder\Metadata\MetadataBuilder;
 use Soliant\SimpleFM\Repository\Builder\Proxy\ProxyBuilder;
 use Soliant\SimpleFM\Repository\Builder\RepositoryBuilder;
+use Soliant\SimpleFM\Repository\Builder\RepositoryBuilderInterface;
 
 final class RepositoryBuilderFactory
 {
-    public function __invoke(ContainerInterface $container)
+    public function __invoke(ContainerInterface $container) : RepositoryBuilderInterface
     {
         $config = $container->get('config');
         Assertion::isArrayAccessible($config);
@@ -25,7 +26,7 @@ final class RepositoryBuilderFactory
         $repositoryBuilderConfig = $simpleFmConfig['repository_builder'];
         Assertion::isArrayAccessible($repositoryBuilderConfig);
 
-        Assertion::keyExists('xml_folder', $repositoryBuilderConfig);
+        Assertion::keyExists($repositoryBuilderConfig, 'xml_folder');
 
         $additionalTypes = [];
 

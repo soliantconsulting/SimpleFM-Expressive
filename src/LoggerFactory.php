@@ -5,13 +5,14 @@ namespace Soliant\SimpleFM\Expressive;
 
 use Assert\Assertion;
 use Interop\Container\ContainerInterface;
+use Psr\Log\LoggerInterface;
 use Zend\Log\Logger;
 use Zend\Log\PsrLoggerAdapter;
 use Zend\Log\Writer\Stream;
 
-final class IdentityHandlerFactory
+final class LoggerFactory
 {
-    public function __invoke(ContainerInterface $container)
+    public function __invoke(ContainerInterface $container) : LoggerInterface
     {
         $config = $container->get('config');
         Assertion::isArrayAccessible($config);
@@ -24,14 +25,11 @@ final class IdentityHandlerFactory
         $loggerConfig = $simpleFmConfig['logger'];
         Assertion::isArrayAccessible($loggerConfig);
 
-        Assertion::keyExists('path', $loggerConfig);
+        Assertion::keyExists($loggerConfig, 'path');
 
-        return new PsrLoggerAdapter(
-            new Logger([
-                'writers' => [
-                    new Stream($loggerConfig['path'])
-                ],
-            ])
-        );
+        $logger = new Logger();
+        $logger->addWriter(new Stream($loggerConfig['path']));
+
+        return new PsrLoggerAdapter($logger);
     }
 }

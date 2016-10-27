@@ -18,9 +18,11 @@ return [
         ],
 
         'authenticator' => [
-            'identity_handler' => 'soliant.simplefm.expressive.identity-handler',
             'identity_layout' => 'identity-layout',
             'username_field' => 'username-field',
+
+            // The following setting is optional.
+            'identity_handler' => 'soliant.simplefm.expressive.identity-handler',
         ],
 
         'repository_builder' => [

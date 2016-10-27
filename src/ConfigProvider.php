@@ -11,7 +11,7 @@ use Soliant\SimpleFM\Repository\Builder\RepositoryBuilderInterface;
 
 final class ConfigProvider
 {
-    public function __invoke()
+    public function __invoke() : array
     {
         return [
             'dependencies' => [

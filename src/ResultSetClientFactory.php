@@ -7,11 +7,12 @@ use Assert\Assertion;
 use DateTimeZone;
 use Interop\Container\ContainerInterface;
 use Soliant\SimpleFM\Client\ResultSet\ResultSetClient;
+use Soliant\SimpleFM\Client\ResultSet\ResultSetClientInterface;
 use Soliant\SimpleFM\Connection\ConnectionInterface;
 
 final class ResultSetClientFactory
 {
-    public function __invoke(ContainerInterface $container)
+    public function __invoke(ContainerInterface $container) : ResultSetClientInterface
     {
         $config = $container->get('config');
         Assertion::isArrayAccessible($config);
@@ -24,7 +25,7 @@ final class ResultSetClientFactory
         $resultSetClientConfig = $simpleFmConfig['result_set_client'];
         Assertion::isArrayAccessible($resultSetClientConfig);
 
-        Assertion::keyExists('time_zone', $resultSetClientConfig);
+        Assertion::keyExists($resultSetClientConfig, 'time_zone');
 
         return new ResultSetClient(
             $container->get(ConnectionInterface::class),

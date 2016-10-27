@@ -46,7 +46,7 @@
         "cs-fix": "phpcbf",
         "test": "phpunit",
         "test-coverage": "phpunit --coverage-clover clover.xml",
-        "html": "phpunit --coverage-html build/logs/coverage.html"
+        "html": "phpunit --coverage-html build/logs/coverage"
     }
 
 }

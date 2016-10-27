@@ -10,7 +10,7 @@ use Soliant\SimpleFM\Client\ResultSet\ResultSetClientInterface;
 
 final class AuthenticatorFactory
 {
-    public function __invoke(ContainerInterface $container)
+    public function __invoke(ContainerInterface $container) : Authenticator
     {
         $config = $container->get('config');
         Assertion::isArrayAccessible($config);
@@ -23,13 +23,12 @@ final class AuthenticatorFactory
         $authenticatorConfig = $simpleFmConfig['authenticator'];
         Assertion::isArrayAccessible($authenticatorConfig);
 
-        Assertion::keyExists('identity_handler', $authenticatorConfig);
-        Assertion::keyExists('identity_layout', $authenticatorConfig);
-        Assertion::keyExists('username_field', $authenticatorConfig);
+        Assertion::keyExists($authenticatorConfig, 'identity_layout');
+        Assertion::keyExists($authenticatorConfig, 'username_field');
 
         return new Authenticator(
             $container->get(ResultSetClientInterface::class),
-            $container->get($authenticatorConfig['identity_handler']),
+            $container->get($authenticatorConfig['identity_handler'] ?? 'soliant.simplefm.expressive.identity-handler'),
             $authenticatorConfig['identity_layout'],
             $authenticatorConfig['username_field']
         );

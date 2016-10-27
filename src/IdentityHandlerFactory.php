@@ -6,11 +6,12 @@ namespace Soliant\SimpleFM\Expressive;
 use Assert\Assertion;
 use Interop\Container\ContainerInterface;
 use Soliant\SimpleFM\Authentication\BlockCipherIdentityHandler;
+use Soliant\SimpleFM\Authentication\IdentityHandlerInterface;
 use Zend\Crypt\BlockCipher;
 
 final class IdentityHandlerFactory
 {
-    public function __invoke(ContainerInterface $container)
+    public function __invoke(ContainerInterface $container) : IdentityHandlerInterface
     {
         $config = $container->get('config');
         Assertion::isArrayAccessible($config);
@@ -23,7 +24,7 @@ final class IdentityHandlerFactory
         $identityHandlerConfig = $simpleFmConfig['identity_handler'];
         Assertion::isArrayAccessible($identityHandlerConfig);
 
-        Assertion::keyExists('key', $identityHandlerConfig);
+        Assertion::keyExists($identityHandlerConfig, 'key');
 
         return new BlockCipherIdentityHandler(
             BlockCipher::factory('openssl', ['algo' => 'aes'])->setKey($identityHandlerConfig['key'])

@@ -14,7 +14,7 @@
     ],
     "require": {
         "php": "^7.0",
-        "soliantconsulting/simplefm": "dev-develop as 5.0.0",
+        "soliantconsulting/simplefm": "^5.0",
         "container-interop/container-interop": "^1.1",
         "zendframework/zend-diactoros": "^1.3",
         "beberlei/assert": "^2.6"

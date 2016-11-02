@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace SoliantTest\SimpleFM\Expressive;
 
+use ArrayObject;
 use Assert\InvalidArgumentException;
 use Http\Client\HttpClient;
 use Interop\Container\ContainerInterface;
@@ -51,10 +52,24 @@ final class ConnectionFactoryTest extends TestCase
     /**
      * @dataProvider missingConfigProvider
      */
-    public function testMissingConfig(array $config, string $exceptionMessageContent)
+    public function testMissingConfigWithArray(array $config, string $exceptionMessageContent)
     {
         $container = $this->prophesize(ContainerInterface::class);
         $container->get('config')->willReturn($config);
+
+        $factory = new ConnectionFactory();
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage($exceptionMessageContent);
+        $factory($container->reveal());
+    }
+
+    /**
+     * @dataProvider missingConfigProvider
+     */
+    public function testMissingConfigWithArrayObject(array $config, string $exceptionMessageContent)
+    {
+        $container = $this->prophesize(ContainerInterface::class);
+        $container->get('config')->willReturn(new ArrayObject($config));
 
         $factory = new ConnectionFactory();
         $this->expectException(InvalidArgumentException::class);

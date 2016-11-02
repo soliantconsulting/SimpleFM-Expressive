@@ -16,16 +16,16 @@ final class LoggerFactory
     {
         $config = $container->get('config');
         Assertion::isArrayAccessible($config);
-        Assertion::keyExists($config, 'simplefm');
+        Assertion::keyIsset($config, 'simplefm');
 
         $simpleFmConfig = $config['simplefm'];
         Assertion::isArrayAccessible($simpleFmConfig);
-        Assertion::keyExists($simpleFmConfig, 'logger');
+        Assertion::keyIsset($simpleFmConfig, 'logger');
 
         $loggerConfig = $simpleFmConfig['logger'];
         Assertion::isArrayAccessible($loggerConfig);
 
-        Assertion::keyExists($loggerConfig, 'path');
+        Assertion::keyIsset($loggerConfig, 'path');
 
         $logger = new Logger();
         $logger->addWriter(new Stream($loggerConfig['path']));

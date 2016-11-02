@@ -17,16 +17,16 @@ final class RepositoryBuilderFactory
     {
         $config = $container->get('config');
         Assertion::isArrayAccessible($config);
-        Assertion::keyExists($config, 'simplefm');
+        Assertion::keyIsset($config, 'simplefm');
 
         $simpleFmConfig = $config['simplefm'];
         Assertion::isArrayAccessible($simpleFmConfig);
-        Assertion::keyExists($simpleFmConfig, 'repository_builder');
+        Assertion::keyIsset($simpleFmConfig, 'repository_builder');
 
         $repositoryBuilderConfig = $simpleFmConfig['repository_builder'];
         Assertion::isArrayAccessible($repositoryBuilderConfig);
 
-        Assertion::keyExists($repositoryBuilderConfig, 'xml_folder');
+        Assertion::keyIsset($repositoryBuilderConfig, 'xml_folder');
 
         $additionalTypes = [];
 

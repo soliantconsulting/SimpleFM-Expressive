@@ -15,17 +15,17 @@ final class ConnectionFactory
     {
         $config = $container->get('config');
         Assertion::isArrayAccessible($config);
-        Assertion::keyExists($config, 'simplefm');
+        Assertion::keyIsset($config, 'simplefm');
 
         $simpleFmConfig = $config['simplefm'];
         Assertion::isArrayAccessible($simpleFmConfig);
-        Assertion::keyExists($simpleFmConfig, 'connection');
+        Assertion::keyIsset($simpleFmConfig, 'connection');
 
         $connectionConfig = $simpleFmConfig['connection'];
         Assertion::isArrayAccessible($connectionConfig);
 
-        Assertion::keyExists($connectionConfig, 'uri');
-        Assertion::keyExists($connectionConfig, 'database');
+        Assertion::keyIsset($connectionConfig, 'uri');
+        Assertion::keyIsset($connectionConfig, 'database');
 
         $identityHandler = null;
         $logger = null;

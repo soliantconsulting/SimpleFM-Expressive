@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace Soliant\SimpleFM\Expressive;
 
-use Http\Client\Socket\Client;
 use Soliant\SimpleFM\Authentication\Authenticator;
 use Soliant\SimpleFM\Client\Layout\LayoutClientInterface;
 use Soliant\SimpleFM\Client\ResultSet\ResultSetClientInterface;
@@ -25,10 +24,6 @@ final class ConfigProvider
 
                     'soliant.simplefm.expressive.identity-handler' => IdentityHandlerFactory::class,
                     'soliant.simplefm.expressive.logger' => LoggerFactory::class,
-                ],
-
-                'invokables' => [
-                    'soliant.simplefm.expressive.http-client' => Client::class,
                 ],
             ],
         ];

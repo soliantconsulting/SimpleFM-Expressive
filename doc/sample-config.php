@@ -5,9 +5,11 @@ return [
             'uri' => 'https://example.com',
             'database' => 'sample-database',
 
+            // The following setting is required and you must set an appropriate HTTP client in your container.
+            'http_client' => 'http-client.container.key',
+
             // The following settings are optional and can be ommited. These are keys pointing to objects in your
             // dependency container. This package provides ready-made factories which you can use.
-            'http_client' => 'soliant.simplefm.expressive.http-client',
             'identity_handler' => 'soliant.simplefm.expressive.identity-handler',
             'logger' => 'soliant.simplefm.expressive.logger',
         ],

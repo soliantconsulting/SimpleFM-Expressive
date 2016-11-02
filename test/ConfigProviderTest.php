@@ -15,7 +15,7 @@ final class ConfigProviderTest extends TestCase
 {
     public function testDependenciesSectionExists()
     {
-        $config = (new ConfigProvider())();
+        $config = (new ConfigProvider())->__invoke();
         $this->assertInternalType('array', $config);
 
         $this->assertArrayHasKey('dependencies', $config);
@@ -24,7 +24,7 @@ final class ConfigProviderTest extends TestCase
 
     public function testRegisteredFactories()
     {
-        $config = (new ConfigProvider())();
+        $config = (new ConfigProvider())->__invoke();
 
         $this->assertArrayHasKey('factories', $config['dependencies']);
         $this->assertInternalType('array', $config['dependencies']['factories']);
@@ -36,22 +36,6 @@ final class ConfigProviderTest extends TestCase
         $this->assertValidFactory(ResultSetClientInterface::class, $factoryConfig);
         $this->assertValidFactory('soliant.simplefm.expressive.identity-handler', $factoryConfig);
         $this->assertValidFactory('soliant.simplefm.expressive.logger', $factoryConfig);
-    }
-
-    public function testRegisteredInvokables()
-    {
-        $config = (new ConfigProvider())();
-
-        $this->assertArrayHasKey('invokables', $config['dependencies']);
-        $this->assertInternalType('array', $config['dependencies']['invokables']);
-        $invokableConfig = $config['dependencies']['invokables'];
-
-        $this->assertArrayHasKey('soliant.simplefm.expressive.http-client', $invokableConfig);
-        $this->assertTrue(class_exists($invokableConfig['soliant.simplefm.expressive.http-client']));
-        $this->assertTrue(is_subclass_of(
-            $invokableConfig['soliant.simplefm.expressive.http-client'],
-            HttpClient::class
-        ));
     }
 
     private function assertValidFactory(string $key, array $factoryConfig)

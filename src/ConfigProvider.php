@@ -5,6 +5,7 @@ namespace Soliant\SimpleFM\Expressive;
 
 use Http\Client\Socket\Client;
 use Soliant\SimpleFM\Authentication\Authenticator;
+use Soliant\SimpleFM\Client\Layout\LayoutClientInterface;
 use Soliant\SimpleFM\Client\ResultSet\ResultSetClientInterface;
 use Soliant\SimpleFM\Connection\ConnectionInterface;
 use Soliant\SimpleFM\Repository\Builder\RepositoryBuilderInterface;
@@ -20,6 +21,7 @@ final class ConfigProvider
                     ConnectionInterface::class => ConnectionFactory::class,
                     RepositoryBuilderInterface::class => RepositoryBuilderFactory::class,
                     ResultSetClientInterface::class => ResultSetClientFactory::class,
+                    LayoutClientInterface::class => LayoutClientFactory::class,
 
                     'soliant.simplefm.expressive.identity-handler' => IdentityHandlerFactory::class,
                     'soliant.simplefm.expressive.logger' => LoggerFactory::class,

@@ -23,13 +23,11 @@
         "phpunit/PHPUnit": "^5.5",
         "squizlabs/php_codesniffer": "^2.6",
         "zendframework/zend-crypt": "^3.1",
-        "zendframework/zend-log": "^2.9",
-        "php-http/socket-client": "^1.2"
+        "zendframework/zend-log": "^2.9"
     },
     "suggest": {
         "zendframework/zend-log": "For using the built-in logging mechanism",
-        "zendframework/zend-crypt": "For using the built-in identity handler",
-        "php-http/socket-client": "For using the built-in HTTP client"
+        "zendframework/zend-crypt": "For using the built-in identity handler"
     },
     "autoload": {
         "psr-4": {

@@ -46,6 +46,17 @@ final class ConnectionFactoryTest extends TestCase
                 ],
                 'database',
             ],
+            [
+                [
+                    'simplefm' => [
+                        'connection' => [
+                            'uri' => 'uri',
+                            'database' => 'database',
+                        ],
+                    ],
+                ],
+                'http_client',
+            ],
         ];
     }
 
@@ -85,25 +96,6 @@ final class ConnectionFactoryTest extends TestCase
                 'connection' => [
                     'uri' => 'uri',
                     'database' => 'database',
-                ],
-            ],
-        ]);
-        $container->get('soliant.simplefm.expressive.http-client')->shouldBeCalled()->willReturn(
-            $this->prophesize(HttpClient::class)->reveal()
-        );
-
-        $factory = new ConnectionFactory();
-        $this->assertInstanceOf(ConnectionInterface::class, $factory($container->reveal()));
-    }
-
-    public function testSuccessfulCreationWithCustomHttpClient()
-    {
-        $container = $this->prophesize(ContainerInterface::class);
-        $container->get('config')->willReturn([
-            'simplefm' => [
-                'connection' => [
-                    'uri' => 'uri',
-                    'database' => 'database',
                     'http_client' => 'http_client',
                 ],
             ],
@@ -124,11 +116,12 @@ final class ConnectionFactoryTest extends TestCase
                 'connection' => [
                     'uri' => 'uri',
                     'database' => 'database',
+                    'http_client' => 'http_client',
                     'identity_handler' => 'identity_handler',
                 ],
             ],
         ]);
-        $container->get('soliant.simplefm.expressive.http-client')->willReturn(
+        $container->get('http_client')->willReturn(
             $this->prophesize(HttpClient::class)->reveal()
         );
         $container->get('identity_handler')->shouldBeCalled()->willReturn(
@@ -147,11 +140,12 @@ final class ConnectionFactoryTest extends TestCase
                 'connection' => [
                     'uri' => 'uri',
                     'database' => 'database',
+                    'http_client' => 'http_client',
                     'logger' => 'logger',
                 ],
             ],
         ]);
-        $container->get('soliant.simplefm.expressive.http-client')->willReturn(
+        $container->get('http_client')->willReturn(
             $this->prophesize(HttpClient::class)->reveal()
         );
         $container->get('logger')->shouldBeCalled()->willReturn(

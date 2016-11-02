@@ -26,6 +26,7 @@ final class ConnectionFactory
 
         Assertion::keyIsset($connectionConfig, 'uri');
         Assertion::keyIsset($connectionConfig, 'database');
+        Assertion::keyIsset($connectionConfig, 'http_client');
 
         $identityHandler = null;
         $logger = null;
@@ -39,7 +40,7 @@ final class ConnectionFactory
         }
 
         return new Connection(
-            $container->get($connectionConfig['http_client'] ?? 'soliant.simplefm.expressive.http-client'),
+            $container->get($connectionConfig['http_client']),
             new Uri($connectionConfig['uri']),
             $connectionConfig['database'],
             $identityHandler,

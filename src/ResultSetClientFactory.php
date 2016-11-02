@@ -16,16 +16,16 @@ final class ResultSetClientFactory
     {
         $config = $container->get('config');
         Assertion::isArrayAccessible($config);
-        Assertion::keyExists($config, 'simplefm');
+        Assertion::keyIsset($config, 'simplefm');
 
         $simpleFmConfig = $config['simplefm'];
         Assertion::isArrayAccessible($simpleFmConfig);
-        Assertion::keyExists($simpleFmConfig, 'result_set_client');
+        Assertion::keyIsset($simpleFmConfig, 'result_set_client');
 
         $resultSetClientConfig = $simpleFmConfig['result_set_client'];
         Assertion::isArrayAccessible($resultSetClientConfig);
 
-        Assertion::keyExists($resultSetClientConfig, 'time_zone');
+        Assertion::keyIsset($resultSetClientConfig, 'time_zone');
 
         return new ResultSetClient(
             $container->get(ConnectionInterface::class),

@@ -15,16 +15,16 @@ final class IdentityHandlerFactory
     {
         $config = $container->get('config');
         Assertion::isArrayAccessible($config);
-        Assertion::keyExists($config, 'simplefm');
+        Assertion::keyIsset($config, 'simplefm');
 
         $simpleFmConfig = $config['simplefm'];
         Assertion::isArrayAccessible($simpleFmConfig);
-        Assertion::keyExists($simpleFmConfig, 'identity_handler');
+        Assertion::keyIsset($simpleFmConfig, 'identity_handler');
 
         $identityHandlerConfig = $simpleFmConfig['identity_handler'];
         Assertion::isArrayAccessible($identityHandlerConfig);
 
-        Assertion::keyExists($identityHandlerConfig, 'key');
+        Assertion::keyIsset($identityHandlerConfig, 'key');
 
         return new BlockCipherIdentityHandler(
             BlockCipher::factory('openssl', ['algo' => 'aes'])->setKey($identityHandlerConfig['key'])

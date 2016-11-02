@@ -3,7 +3,6 @@ declare(strict_types = 1);
 
 namespace SoliantTest\SimpleFM\Expressive;
 
-use Http\Client\HttpClient;
 use PHPUnit_Framework_TestCase as TestCase;
 use Soliant\SimpleFM\Authentication\Authenticator;
 use Soliant\SimpleFM\Client\ResultSet\ResultSetClientInterface;

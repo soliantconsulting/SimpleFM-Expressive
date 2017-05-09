@@ -3,6 +3,8 @@ return [
     'simplefm' => [
         'connection' => [
             'uri' => 'https://example.com',
+            'username' => 'filemaker-username',
+            'password' => 'filemaker-password',
             'database' => 'sample-database',
 
             // The following setting is required and you must set an appropriate HTTP client in your container.

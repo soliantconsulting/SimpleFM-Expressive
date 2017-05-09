@@ -15,79 +15,6 @@ use Soliant\SimpleFM\Expressive\ConnectionFactory;
 
 final class ConnectionFactoryTest extends TestCase
 {
-    public static function missingConfigProvider() : array
-    {
-        return [
-            [
-                [],
-                'simplefm',
-            ],
-            [
-                [
-                    'simplefm' => [],
-                ],
-                'connection',
-            ],
-            [
-                [
-                    'simplefm' => [
-                        'connection' => [],
-                    ],
-                ],
-                'uri',
-            ],
-            [
-                [
-                    'simplefm' => [
-                        'connection' => [
-                            'uri' => 'uri',
-                        ],
-                    ],
-                ],
-                'database',
-            ],
-            [
-                [
-                    'simplefm' => [
-                        'connection' => [
-                            'uri' => 'uri',
-                            'database' => 'database',
-                        ],
-                    ],
-                ],
-                'http_client',
-            ],
-        ];
-    }
-
-    /**
-     * @dataProvider missingConfigProvider
-     */
-    public function testMissingConfigWithArray(array $config, string $exceptionMessageContent)
-    {
-        $container = $this->prophesize(ContainerInterface::class);
-        $container->get('config')->willReturn($config);
-
-        $factory = new ConnectionFactory();
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage($exceptionMessageContent);
-        $factory($container->reveal());
-    }
-
-    /**
-     * @dataProvider missingConfigProvider
-     */
-    public function testMissingConfigWithArrayObject(array $config, string $exceptionMessageContent)
-    {
-        $container = $this->prophesize(ContainerInterface::class);
-        $container->get('config')->willReturn(new ArrayObject($config));
-
-        $factory = new ConnectionFactory();
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage($exceptionMessageContent);
-        $factory($container->reveal());
-    }
-
     public function testSuccessfulCreationWithoutOptionalConfig()
     {
         $container = $this->prophesize(ContainerInterface::class);
@@ -95,6 +22,28 @@ final class ConnectionFactoryTest extends TestCase
             'simplefm' => [
                 'connection' => [
                     'uri' => 'uri',
+                    'database' => 'database',
+                    'http_client' => 'http_client',
+                ],
+            ],
+        ]);
+        $container->get('http_client')->shouldBeCalled()->willReturn(
+            $this->prophesize(HttpClient::class)->reveal()
+        );
+
+        $factory = new ConnectionFactory();
+        $this->assertInstanceOf(ConnectionInterface::class, $factory($container->reveal()));
+    }
+
+    public function testCreationWithUserInfoOverride()
+    {
+        $container = $this->prophesize(ContainerInterface::class);
+        $container->get('config')->willReturn([
+            'simplefm' => [
+                'connection' => [
+                    'uri' => 'uri',
+                    'username' => 'username',
+                    'password' => 'password',
                     'database' => 'database',
                     'http_client' => 'http_client',
                 ],

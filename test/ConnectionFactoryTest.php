@@ -35,6 +35,28 @@ final class ConnectionFactoryTest extends TestCase
         $this->assertInstanceOf(ConnectionInterface::class, $factory($container->reveal()));
     }
 
+    public function testCreationWithUserInfoOverride()
+    {
+        $container = $this->prophesize(ContainerInterface::class);
+        $container->get('config')->willReturn([
+            'simplefm' => [
+                'connection' => [
+                    'uri' => 'uri',
+                    'username' => 'username',
+                    'password' => 'password',
+                    'database' => 'database',
+                    'http_client' => 'http_client',
+                ],
+            ],
+        ]);
+        $container->get('http_client')->shouldBeCalled()->willReturn(
+            $this->prophesize(HttpClient::class)->reveal()
+        );
+
+        $factory = new ConnectionFactory();
+        $this->assertInstanceOf(ConnectionInterface::class, $factory($container->reveal()));
+    }
+
     public function testSuccessfulCreationWithIdentityHandler()
     {
         $container = $this->prophesize(ContainerInterface::class);

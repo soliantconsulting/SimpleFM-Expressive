@@ -29,9 +29,18 @@ final class ConnectionFactory
             $logger = $container->get($config->getString('logger'));
         }
 
+        $uri = new Uri($config->getString('uri'));
+
+        if ($config->hasNonNullValue('username')) {
+            $uri->withUserInfo(
+                $config->getString('username'),
+                $config->hasNonNullValue('password') ? $config->getString('password') : null
+            );
+        }
+
         return new Connection(
             $container->get($config->getString('http_client')),
-            new Uri($config->getString('uri')),
+            $uri,
             $config->getString('database'),
             $identityHandler,
             $logger

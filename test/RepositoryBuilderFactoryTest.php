@@ -3,8 +3,7 @@ declare(strict_types = 1);
 
 namespace SoliantTest\SimpleFM\Expressive;
 
-use ArrayObject;
-use Assert\InvalidArgumentException;
+use DASPRiD\TreeReader\Exception\UnexpectedTypeException;
 use Interop\Container\ContainerInterface;
 use PHPUnit_Framework_TestCase as TestCase;
 use Soliant\SimpleFM\Client\ResultSet\ResultSetClientInterface;
@@ -14,58 +13,6 @@ use Soliant\SimpleFM\Repository\Builder\Type\TypeInterface;
 
 final class RepositoryBuilderFactoryTest extends TestCase
 {
-    public static function missingConfigProvider() : array
-    {
-        return [
-            [
-                [],
-                'simplefm',
-            ],
-            [
-                [
-                    'simplefm' => [],
-                ],
-                'repository_builder',
-            ],
-            [
-                [
-                    'simplefm' => [
-                        'repository_builder' => [],
-                    ],
-                ],
-                'xml_folder',
-            ],
-        ];
-    }
-
-    /**
-     * @dataProvider missingConfigProvider
-     */
-    public function testMissingConfigWithArray(array $config, string $exceptionMessageContent)
-    {
-        $container = $this->prophesize(ContainerInterface::class);
-        $container->get('config')->willReturn($config);
-
-        $factory = new RepositoryBuilderFactory();
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage($exceptionMessageContent);
-        $factory($container->reveal());
-    }
-
-    /**
-     * @dataProvider missingConfigProvider
-     */
-    public function testMissingConfigWithArrayObject(array $config, string $exceptionMessageContent)
-    {
-        $container = $this->prophesize(ContainerInterface::class);
-        $container->get('config')->willReturn(new ArrayObject($config));
-
-        $factory = new RepositoryBuilderFactory();
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage($exceptionMessageContent);
-        $factory($container->reveal());
-    }
-
     public function testNonTraversableAdditionalTypes()
     {
         $container = $this->prophesize(ContainerInterface::class);
@@ -79,8 +26,8 @@ final class RepositoryBuilderFactoryTest extends TestCase
         ]);
 
         $factory = new RepositoryBuilderFactory();
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('is not an array and does not implement Traversable');
+        $this->expectException(UnexpectedTypeException::class);
+        $this->expectExceptionMessage('is of type string, but array was expected');
         $factory($container->reveal());
     }
 

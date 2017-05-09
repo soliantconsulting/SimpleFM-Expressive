@@ -3,8 +3,6 @@ declare(strict_types = 1);
 
 namespace SoliantTest\SimpleFM\Expressive;
 
-use ArrayObject;
-use Assert\InvalidArgumentException;
 use Interop\Container\ContainerInterface;
 use PHPUnit_Framework_TestCase as TestCase;
 use Soliant\SimpleFM\Authentication\Authenticator;
@@ -14,68 +12,6 @@ use Soliant\SimpleFM\Expressive\AuthenticatorFactory;
 
 final class AuthenticatorFactoryTest extends TestCase
 {
-    public static function missingConfigProvider() : array
-    {
-        return [
-            [
-                [],
-                'simplefm',
-            ],
-            [
-                [
-                    'simplefm' => [],
-                ],
-                'authenticator',
-            ],
-            [
-                [
-                    'simplefm' => [
-                        'authenticator' => [],
-                    ],
-                ],
-                'identity_layout',
-            ],
-            [
-                [
-                    'simplefm' => [
-                        'authenticator' => [
-                            'identity_layout' => '',
-                        ],
-                    ],
-                ],
-                'username_field',
-            ],
-        ];
-    }
-
-    /**
-     * @dataProvider missingConfigProvider
-     */
-    public function testMissingConfigWithArray(array $config, string $exceptionMessageContent)
-    {
-        $container = $this->prophesize(ContainerInterface::class);
-        $container->get('config')->willReturn($config);
-
-        $factory = new AuthenticatorFactory();
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage($exceptionMessageContent);
-        $factory($container->reveal());
-    }
-
-    /**
-     * @dataProvider missingConfigProvider
-     */
-    public function testMissingConfigWithArrayObject(array $config, string $exceptionMessageContent)
-    {
-        $container = $this->prophesize(ContainerInterface::class);
-        $container->get('config')->willReturn(new ArrayObject($config));
-
-        $factory = new AuthenticatorFactory();
-        $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage($exceptionMessageContent);
-        $factory($container->reveal());
-    }
-
     public function properConfigProvider() : array
     {
         return [

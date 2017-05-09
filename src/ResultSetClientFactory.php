@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace Soliant\SimpleFM\Expressive;
 
-use Assert\Assertion;
+use DASPRiD\TreeReader\TreeReader;
 use DateTimeZone;
 use Interop\Container\ContainerInterface;
 use Soliant\SimpleFM\Client\ResultSet\ResultSetClient;
@@ -14,22 +14,14 @@ final class ResultSetClientFactory
 {
     public function __invoke(ContainerInterface $container) : ResultSetClientInterface
     {
-        $config = $container->get('config');
-        Assertion::isArrayAccessible($config);
-        Assertion::keyIsset($config, 'simplefm');
-
-        $simpleFmConfig = $config['simplefm'];
-        Assertion::isArrayAccessible($simpleFmConfig);
-        Assertion::keyIsset($simpleFmConfig, 'result_set_client');
-
-        $resultSetClientConfig = $simpleFmConfig['result_set_client'];
-        Assertion::isArrayAccessible($resultSetClientConfig);
-
-        Assertion::keyIsset($resultSetClientConfig, 'time_zone');
+        $config = (new TreeReader($container->get('config'), 'config'))
+            ->getChildren('simplefm')
+            ->getChildren('result_set_client')
+        ;
 
         return new ResultSetClient(
             $container->get(ConnectionInterface::class),
-            new DateTimeZone($resultSetClientConfig['time_zone'])
+            new DateTimeZone($config->getString('time_zone'))
         );
     }
 }

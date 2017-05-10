@@ -32,7 +32,7 @@ final class ConnectionFactory
         $uri = new Uri($config->getString('uri'));
 
         if ($config->hasNonNullValue('username')) {
-            $uri->withUserInfo(
+            $uri = $uri->withUserInfo(
                 $config->getString('username'),
                 $config->hasNonNullValue('password') ? $config->getString('password') : null
             );

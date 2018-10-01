@@ -3,10 +3,9 @@ declare(strict_types = 1);
 
 namespace SoliantTest\SimpleFM\Expressive;
 
-use PHPUnit_Framework_TestCase as TestCase;
-use Soliant\SimpleFM\Authentication\Authenticator;
-use Soliant\SimpleFM\Client\ResultSet\ResultSetClientInterface;
-use Soliant\SimpleFM\Connection\ConnectionInterface;
+use PHPUnit\Framework\TestCase;
+use Soliant\SimpleFM\Client\ClientInterface;
+use Soliant\SimpleFM\Client\Connection;
 use Soliant\SimpleFM\Expressive\ConfigProvider;
 use Soliant\SimpleFM\Repository\Builder\RepositoryBuilderInterface;
 
@@ -29,12 +28,9 @@ final class ConfigProviderTest extends TestCase
         $this->assertInternalType('array', $config['dependencies']['factories']);
         $factoryConfig = $config['dependencies']['factories'];
 
-        $this->assertValidFactory(Authenticator::class, $factoryConfig);
-        $this->assertValidFactory(ConnectionInterface::class, $factoryConfig);
+        $this->assertValidFactory(Connection::class, $factoryConfig);
         $this->assertValidFactory(RepositoryBuilderInterface::class, $factoryConfig);
-        $this->assertValidFactory(ResultSetClientInterface::class, $factoryConfig);
-        $this->assertValidFactory('soliant.simplefm.expressive.identity-handler', $factoryConfig);
-        $this->assertValidFactory('soliant.simplefm.expressive.logger', $factoryConfig);
+        $this->assertValidFactory(ClientInterface::class, $factoryConfig);
     }
 
     private function assertValidFactory(string $key, array $factoryConfig)

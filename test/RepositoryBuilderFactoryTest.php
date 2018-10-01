@@ -3,35 +3,16 @@ declare(strict_types = 1);
 
 namespace SoliantTest\SimpleFM\Expressive;
 
-use DASPRiD\TreeReader\Exception\UnexpectedTypeException;
-use Interop\Container\ContainerInterface;
-use PHPUnit_Framework_TestCase as TestCase;
-use Soliant\SimpleFM\Client\ResultSet\ResultSetClientInterface;
+use PHPUnit\Framework\TestCase;
+use Psr\Container\ContainerInterface;
+use Soliant\SimpleFM\Client\ClientInterface;
 use Soliant\SimpleFM\Expressive\RepositoryBuilderFactory;
 use Soliant\SimpleFM\Repository\Builder\RepositoryBuilderInterface;
 use Soliant\SimpleFM\Repository\Builder\Type\TypeInterface;
 
 final class RepositoryBuilderFactoryTest extends TestCase
 {
-    public function testNonTraversableAdditionalTypes()
-    {
-        $container = $this->prophesize(ContainerInterface::class);
-        $container->get('config')->willReturn([
-            'simplefm' => [
-                'repository_builder' => [
-                    'xml_folder' => 'xml_folder',
-                    'additional_types' => 'additional_types',
-                ],
-            ],
-        ]);
-
-        $factory = new RepositoryBuilderFactory();
-        $this->expectException(UnexpectedTypeException::class);
-        $this->expectExceptionMessage('is of type string, but array was expected');
-        $factory($container->reveal());
-    }
-
-    public function testProperAdditionalTypes()
+    public function testAdditionalTypes()
     {
         $container = $this->prophesize(ContainerInterface::class);
         $container->get('config')->willReturn([
@@ -45,8 +26,8 @@ final class RepositoryBuilderFactoryTest extends TestCase
             ],
         ]);
         $container->get('bar')->shouldBeCalled()->willReturn($this->prophesize(TypeInterface::class)->reveal());
-        $container->get(ResultSetClientInterface::class)->willReturn(
-            $this->prophesize(ResultSetClientInterface::class)->reveal()
+        $container->get(ClientInterface::class)->willReturn(
+            $this->prophesize(ClientInterface::class)->reveal()
         );
 
         $factory = new RepositoryBuilderFactory();
@@ -63,8 +44,8 @@ final class RepositoryBuilderFactoryTest extends TestCase
                 ],
             ],
         ]);
-        $container->get(ResultSetClientInterface::class)->shouldBeCalled()->willReturn(
-            $this->prophesize(ResultSetClientInterface::class)->reveal()
+        $container->get(ClientInterface::class)->shouldBeCalled()->willReturn(
+            $this->prophesize(ClientInterface::class)->reveal()
         );
 
         $factory = new RepositoryBuilderFactory();
@@ -82,8 +63,8 @@ final class RepositoryBuilderFactoryTest extends TestCase
                 ],
             ],
         ]);
-        $container->get(ResultSetClientInterface::class)->shouldBeCalled()->willReturn(
-            $this->prophesize(ResultSetClientInterface::class)->reveal()
+        $container->get(ClientInterface::class)->shouldBeCalled()->willReturn(
+            $this->prophesize(ClientInterface::class)->reveal()
         );
 
         $factory = new RepositoryBuilderFactory();

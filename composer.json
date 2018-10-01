@@ -13,26 +13,23 @@
         {"name": "Ben Scholzen", "email": "bscholzen@soliantconsulting.com"}
     ],
     "require": {
-        "php": "^7.0",
-        "soliantconsulting/simplefm": "^5.0",
-        "container-interop/container-interop": "^1.1",
-        "zendframework/zend-diactoros": "^1.3",
-        "dasprid/treereader": "^1.2"
+        "php": "^7.2",
+        "dasprid/treereader": "^1.3",
+        "psr/container": "^1.0",
+        "soliantconsulting/simplefm": "^6.0.0-rc1",
+        "zendframework/zend-diactoros": "^1.3"
     },
     "require-dev": {
         "phpunit/PHPUnit": "^5.5",
-        "squizlabs/php_codesniffer": "^2.6",
-        "zendframework/zend-crypt": "^3.1",
-        "zendframework/zend-log": "^2.9"
-    },
-    "suggest": {
-        "zendframework/zend-log": "For using the built-in logging mechanism",
-        "zendframework/zend-crypt": "For using the built-in identity handler"
+        "squizlabs/php_codesniffer": "^2.6"
     },
     "autoload": {
         "psr-4": {
             "Soliant\\SimpleFM\\Expressive\\": "src/"
         }
+    },
+    "config": {
+        "sort-packages": true
     },
     "scripts": {
         "check": [

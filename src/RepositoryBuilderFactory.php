@@ -4,8 +4,8 @@ declare(strict_types = 1);
 namespace Soliant\SimpleFM\Expressive;
 
 use DASPRiD\TreeReader\TreeReader;
-use Interop\Container\ContainerInterface;
-use Soliant\SimpleFM\Client\ResultSet\ResultSetClientInterface;
+use Psr\Container\ContainerInterface;
+use Soliant\SimpleFM\Client\ClientInterface;
 use Soliant\SimpleFM\Repository\Builder\Metadata\MetadataBuilder;
 use Soliant\SimpleFM\Repository\Builder\Proxy\ProxyBuilder;
 use Soliant\SimpleFM\Repository\Builder\RepositoryBuilder;
@@ -17,19 +17,18 @@ final class RepositoryBuilderFactory
     {
         $config = (new TreeReader($container->get('config'), 'config'))
             ->getChildren('simplefm')
-            ->getChildren('repository_builder')
-        ;
+            ->getChildren('repository_builder');
 
         $additionalTypes = [];
 
         if ($config->hasNonNullValue('additional_types')) {
-            foreach ($config->getChildren('additional_types') as $item) {
-                $additionalTypes[$item->getKey()] = $container->get($item->getString());
+            foreach ($config->getChildren('additional_types') as $type) {
+                $additionalTypes[$type->getKey()] = $container->get($type->getString());
             }
         }
 
         return new RepositoryBuilder(
-            $container->get(ResultSetClientInterface::class),
+            $container->get(ClientInterface::class),
             new MetadataBuilder(
                 $config->getString('xml_folder'),
                 $additionalTypes
